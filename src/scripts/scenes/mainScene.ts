@@ -33,7 +33,6 @@ export default class MainScene extends Phaser.Scene {
   soojoLeft       : PhaserLogo
   soojoRight      : PhaserLogo
   backFish        : BackFish[]  
-  private square  : Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body }; 
  
   constructor() {
     super({ key: 'MainScene' })
@@ -262,15 +261,7 @@ export default class MainScene extends Phaser.Scene {
         this.touchSpin(this.coin, this.spins[j])      
       }
     } 
-    // if(this.reel[0].y > 460) {
-    //   let remove_No = this.randomInt(0, 3)
-    //   for(var i=0; i<3; i++) {   
-    //     this.reel[remove_No].y +=300
-    //     let reel_No            = this.randomInt(0, 10)   
-    //     this.reel[remove_No]   = new Reel(this, this.reelX[remove_No], this.reelY[remove_No], this.reel_Name[reel_No])
-    //     remove_No += 4        
-    //   } 
-    // } 
+    
     this.coin.update()
     if(this.coin.y>450) {
       this.coin.destroy();
