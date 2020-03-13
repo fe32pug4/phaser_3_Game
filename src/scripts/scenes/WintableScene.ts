@@ -5,20 +5,16 @@ export default class WintableScene extends Phaser.Scene {
   wintable2: PhaserLogo
   wintable3: PhaserLogo
   wintable4: PhaserLogo
+
   constructor() {
     super({ key: 'WintableScene' })
   }
 
-  preload() {
-    this.load.image('phaser-logo', 'assets/img/phaser-logo.png')
-  }
-
   create() {
-    //this.scene.start('StaticScene')
     this.wintable1 = new PhaserLogo(this, 110, 370,  'wintable1')
     this.wintable2 = new PhaserLogo(this, 685, 370,  'wintable1')
     this.wintable3 = new PhaserLogo(this, 90, 330,  'wintable2')
-    this.wintable4 = new PhaserLogo(this, 666, 330,  'wintable2')
+    this.wintable4 = new PhaserLogo(this, 666, 330,  'wintable2')    
   }
 
   update() {

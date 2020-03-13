@@ -43,6 +43,62 @@ export default class PreloadScene extends Phaser.Scene {
     //DangerNew
     this.load.image('dangernew',       `assets/img/dangernew.png`) 
     
+    //-----------------------Loading Fireworks images-------------------------------
+    for(var i=0; i<58; i++) {
+      let image_Name = ''
+      if(i>9) {
+        image_Name = ('fireworks_00'+i).toString()
+      } else {
+        image_Name = ('fireworks_000'+i).toString()
+      } 
+      this.load.image(image_Name, `assets/img/Effect/Fireworks/${image_Name}.png`)
+    }
+
+    //----------------------Event images Loading
+    //Loading dol images
+    for(var i=0; i<53; i++) {
+      let image_Name = ''
+      if(i>9) {
+        image_Name = ('dol_00'+i).toString()
+      } else {
+        image_Name = ('dol_000'+i).toString()
+      } 
+      this.load.image(image_Name, `assets/img/Event/${image_Name}.png`)
+    }
+
+    //Loading event_bar images
+    for(var i=0; i<44; i++) {
+      let image_Name = ''
+      if(i>9) {
+        image_Name = ('event_bar_00'+i).toString()
+      } else {
+        image_Name = ('event_bar_000'+i).toString()
+      } 
+      this.load.image(image_Name, `assets/img/Event/${image_Name}.png`)
+    }
+
+    //Loading event_seven images
+    for(var i=0; i<42; i++) {
+      let image_Name = ''
+      if(i>9) {
+        image_Name = ('event_seven_00'+i).toString()
+      } else {
+        image_Name = ('event_seven_000'+i).toString()
+      } 
+      this.load.image(image_Name, `assets/img/Event/${image_Name}.png`)
+    }
+
+    //Loading eventstar1 images
+    for(var i=0; i<6; i++) {
+      let image_Name = ''
+      if(i>9) {
+        image_Name = ('eventstar1_00'+i).toString()
+      } else {
+        image_Name = ('eventstar1_000'+i).toString()
+      } 
+      this.load.image(image_Name, `assets/img/Event/${image_Name}.png`)
+    }
+
     //-----------------------Loading reel images------------------------------------
     //Reel bar image loading    
     for(var i=0; i<5; i++) {

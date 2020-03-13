@@ -3,13 +3,14 @@ export default class BackFish extends Phaser.Physics.Arcade.Sprite {
   scene      : Phaser.Scene
   animFrame  : AnimFrame
   animFrames : AnimFrame[]
+  flag       : boolean
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture)
     this.logoFlag = true
     this.scene = scene
     scene.add.existing(this)
     scene.physics.add.existing(this)
-    
+    this.flag  = false
     //----------Create Animation-------------------
     var animKey     = texture + "Anim"
     this.animFrames = []
@@ -28,20 +29,18 @@ export default class BackFish extends Phaser.Physics.Arcade.Sprite {
   } 
 
   public update() { 
-    var flag = true
-    console.log(this.x)
     if(this.x == -50) {      
-      flag = false
+      this.flag = false
     } else if(this.x == 490) {
-      flag = true
+      this.flag = true
     }
 
-    if(flag == true) {
-      this.setFlipX(true)
-      this.x -= 2
+    if(this.flag) {
+      this.setFlipX(false)
+      this.x -= 1
     } else {
       this.setFlipX(true)
-      this.x += 2
+      this.x += 1
     }
   }
 }

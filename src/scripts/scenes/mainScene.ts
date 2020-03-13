@@ -32,7 +32,7 @@ export default class MainScene extends Phaser.Scene {
   background_image_down: PhaserLogo
   soojoLeft       : PhaserLogo
   soojoRight      : PhaserLogo
-  backFish        : BackFish[]
+  backFish        : BackFish[]  
   private square  : Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body }; 
  
   constructor() {
@@ -60,8 +60,8 @@ export default class MainScene extends Phaser.Scene {
     this.backFish = []
     for(var i=1; i<8; i++) {
       let texture = "bfish" + i;
-      let fishY = this.randomInt(50, 300)
-      this.backFish.push(new BackFish(this, -50, fishY, texture))   
+      let fishY = this.randomInt(20, 600)
+      this.backFish.push(new BackFish(this, -60, fishY, texture))   
     }
     //Add 2 soojo images 
     this.soojoLeft          = new PhaserLogo(this, 75, 150, 'soojo')
@@ -103,7 +103,7 @@ export default class MainScene extends Phaser.Scene {
     for(var i=0; i<15; i++) {         
       this.spins[i]         = this.generateSpin(this.spinX[i], this.spinY) 
       this.touchSpin(this.coin, this.spins[i])      
-    }
+    }   
   }
   
   randomInt(min, max){
