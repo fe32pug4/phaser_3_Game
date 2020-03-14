@@ -44681,7 +44681,7 @@ declare namespace Phaser {
              * ```javascript
              * function preload ()
              * {
-             *     this.load.image('logo', 'images/phaserLogo.png');
+             *     this.load.image('logo', 'images/SeaSprite.png');
              * }
              * ```
              * 
