@@ -38,11 +38,12 @@ export default class SeaGearScene extends Phaser.Scene {
   }
 
   create() {  
-    var nGearNum = 0
     //new GearScene(nGearNum)
-    this.playSound('bg_sound')
+    var nGearNum = 0   
+
     //Play background music 
-    //this.gearScene.backgroundImage('bg_sound')
+    this.playSound('bg_sound')
+    
     //Add background image
     this.background_image_up               = new SeaSprite(this, 270, 180, 'background_image')
     this.background_image_down             = new SeaSprite(this, 270, 540, 'background_image')
@@ -68,13 +69,13 @@ export default class SeaGearScene extends Phaser.Scene {
     this.soojoRight         = new SeaSprite(this, 355, 150, 'soojo')
     this.soojoRight.flipX   = true
 
-    this.reel_Name = ['fish1', 'fish2', 'fish3', 'bar', 'joker', 'mong', 'seven', 'heama', 'star', 'target', 'shellfish']
-    this.reelX     = [85, 170, 255, 340]
-    this.reelY     = [-455, -395, -325, -265, -205, -155, -95, -35, 25, 85, 145, 205, 265, 325, 385]
-    this.spinX     = [550, 605, 660, 715, 770, 820, 880, 935, 990, 1045, 1100, 1155, 1210, 1265, 1320]
-    this.spinY     = 290
-    this.droper    = new SeaSprite(this, 10, 35, 'droper') 
-    this.spin_Name = ['bomb', 'bonus_50', 'bonus_100', 'crab', 'prizebox', 'spin_blue', 'spin_green', 'spin_red', 'spin_gray', 'spin_yellow']
+    this.reel_Name  = ['fish1', 'fish2', 'fish3', 'bar', 'joker', 'mong', 'seven', 'heama', 'star', 'target', 'shellfish']
+    this.reelX      = [85, 170, 255, 340]
+    this.reelY      = [-455, -395, -325, -265, -205, -155, -95, -35, 25, 85, 145, 205, 265, 325, 385]
+    this.spinX      = [550, 605, 660, 715, 770, 820, 880, 935, 990, 1045, 1100, 1155, 1210, 1265, 1320]
+    this.spinY      = 290
+    this.droper     = new SeaSprite(this, 10, 35, 'droper') 
+    this.spin_Name  = ['bomb', 'bonus_50', 'bonus_100', 'crab', 'prizebox', 'spin_blue', 'spin_green', 'spin_red', 'spin_gray', 'spin_yellow']
 
     this.reel1      = []
     this.reel2      = []
@@ -111,24 +112,29 @@ export default class SeaGearScene extends Phaser.Scene {
   } 
 
   touchSpin(coin: SeaSprite, spin: Spin) {
-    // this.physics.add.overlap(coin, spin, (coin: SeaSprite, spin: Spin) => {
-    //   if (spin.body.touching.up) {
-    //     if(coin.x < 420 && coin.x > -50) {
-    //       var soundName = 'bomb'
-    //       this.palySound(soundName)         
-          
-    //       var anim_Name = "ani_spin"+spin.img_name;
-    //       if(spin.img_name == 'crab'){
-    //         spin.anims.play("over_spincrab")
-    //         spin.anims.play(anim_Name)
-    //       } else {
-    //         spin.anims.play(anim_Name)
-    //       }          
-    //     }        
-    //     this.coin.destroy()
-    //     this.dropCoin()
-    //   }
-    // })
+    this.physics.add.overlap(coin, spin, (coin: SeaSprite, spin: Spin) => {
+      if (spin.body.touching.up) {
+        if(coin.x < 420 && coin.x > -50) {
+          var soundName = 'bomb'                   
+          console.log(spin.img_name)
+          var anim_Name = "ani_spin"+spin.img_name;
+          if(spin.img_name == 'bomb'){
+            this.playSound((spin.img_name).toString())
+            spin.anims.play(anim_Name)
+          } else if(spin.img_name == "spin_red" || spin.img_name == "spin_blue" || spin.img_name == "spin_gray" || spin.img_name == "spin_green" || spin.img_name == "spin_yellow" ){
+            this.playSound('spin')            
+            new SeaSprite(this, spin.x, spin.y-10, 's_all').setScale(0.8)
+            spin.anims.play(anim_Name)
+          } else if(spin.img_name == "crab") {
+            new SeaSprite(this, spin.x, spin.y-10, 'splat').setScale(0.8)
+            this.playSound('SOOJO')
+            spin.anims.play(anim_Name)
+          }       
+        }        
+        this.coin.destroy()
+        this.dropCoin()
+      }
+    })
   }
 
   playSound(soundName: string) {
@@ -167,8 +173,8 @@ export default class SeaGearScene extends Phaser.Scene {
     this.droperPositionX    = this.droper.getPositionX()
     this.droperPositionY    = this.droper.getPositionY()
     this.coin               = new SeaSprite(this, this.droperPositionX, this.droperPositionY, 'ball_01') 
-    this.coin.setVelocity(35, 0.5).setBounce(1, 1).setCollideWorldBounds(true).setGravityY(400);
-    this.physics.add.collider(this.coin, this.pinsGroup);    
+    // this.coin.setVelocity(35, 0.5).setBounce(1, 1).setCollideWorldBounds(true).setGravityY(400);
+    // this.physics.add.collider(this.coin, this.pinsGroup);    
   }
   
   update() {
@@ -265,7 +271,7 @@ export default class SeaGearScene extends Phaser.Scene {
       }
     } 
     
-    //this.coin.update()
+    this.coin.update()
     if(this.coin.y>450) {
       this.coin.destroy();
       this.dropCoin()

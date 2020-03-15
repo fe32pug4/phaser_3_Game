@@ -12,7 +12,7 @@ export default class baseSprite extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
   }
 
-  public createAnim(img_name: string, nframeNum: number, nframeRate: number) {
+  public createAnim(img_name: string, nframeNum: number, nframeRate: number, nRepteat: number) {
     this.animFrames = []
     let strAnimKey = img_name+"Anim";
     for(let i=0; i<nframeNum; i++) {
@@ -29,7 +29,7 @@ export default class baseSprite extends Phaser.Physics.Arcade.Sprite {
       key: strAnimKey.toString(),
       frames: this.animFrames,
       frameRate: nframeRate,
-      repeat: -1
+      repeat: nRepteat
     });
     return animation;
   }
@@ -42,7 +42,7 @@ export default class baseSprite extends Phaser.Physics.Arcade.Sprite {
     return this.y;
   }
 
-  public update() {    
+  public update(index: number, flag: boolean) {    
     if(this.strImgName == 'droper') {
       if(this.x > 370) {
         this.logoFlag = false 

@@ -10,20 +10,34 @@ export default class SeaSprite extends BaseSprite {
     this.logoFlag = true
 
     if(img_name == 'hae') {
-      this.createAnim(img_name, 30, 10)
+      this.createAnim(img_name, 30, 10, -1)
       let animKey = "haeAnim"
       this.play(animKey)
     }
 
     if(img_name == 'turtle') {
-      this.createAnim(img_name, 21, 10)
+      this.createAnim(img_name, 21, 10, -1)
       let animKey = "turtleAnim"
       this.play(animKey)
     }
 
     if(img_name == 'shark') {
-      this.createAnim(img_name, 37, 10)
+      this.createAnim(img_name, 37, 10, -1)
       let animKey = "sharkAnim"
+      this.play(animKey)
+    }
+
+    //spin(blue, red, yellow, green) over animation
+    if(img_name == 's_all') {
+      this.createAnim(img_name, 15, 10, 0)
+      let animKey = "s_allAnim"
+      this.play(animKey)
+    }
+
+    //spin(crab) over animation
+    if(img_name == 'splat') {
+      this.createAnim(img_name, 11, 10, 0)
+      let animKey = "splatAnim"
       this.play(animKey)
     }
   }  
@@ -56,7 +70,7 @@ export default class SeaSprite extends BaseSprite {
     } else if(this.img_name == 'wintable1' || this.img_name == 'wintable2'){
       this.x = this.x - 1
     } else {
-      this.setVelocity(10, 70)
+      this.setVelocity(20, 70)
     }
   }
 }

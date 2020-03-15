@@ -10,7 +10,8 @@ export default class PreloadScene extends BasePreloadScene {
     ///--------------------------Audio Loading----------------------------
     this.load.audio('bomb'                , `assets/seastory/sound/boom.ogg`);
     this.load.audio('bg_sound'            , `assets/seastory/sound/BGM_0000.ogg`);
-
+    this.load.audio('spin'                , `assets/seastory/sound/SPIN.ogg`);
+    this.load.audio('SOOJO'               , `assets/seastory/sound/SOOJO.ogg`);
     ///--------------------------Image Loading----------------------------
     this.load.image('background_image'    , `assets/seastory/img/back_0.png`);
     this.load.image('soojo'               , `assets/seastory/img/Soojo/soojo_x5.png`);
@@ -160,7 +161,7 @@ export default class PreloadScene extends BasePreloadScene {
     //Crab image Loading
     this.loadingImage('crab'             ,  8 , 'seastory/img/Item/Crab'); 
     this.loadingImage('acrab'            ,  8 , 'seastory/img/Item/Crab/Ani');
-    this.loadingImage('splat'            ,  9 , 'seastory/img/Item/Crab/Over');  
+    this.loadingImage('splat'            , 11 , 'seastory/img/Item/Crab/Over');  
 
     //Prizebox image Loading
     this.loadingImage('prizebox'         ,  8 , 'seastory/img/Item/PrizeBox'); 
@@ -182,6 +183,8 @@ export default class PreloadScene extends BasePreloadScene {
 
     //Spin_gree images Loading
     this.loadingImage('spin_green'       ,  8 , 'seastory/img/Item/Spin')
+    //Spin Over images Loading
+    this.loadingImage('s_all'            , 15 , 'seastory/img/Item/Spin/Over')
 
     this.load.image('spin_blue_ani_0000'  , `assets/seastory/img/Item/Spin/Ani/spin_ani_blue_0000.png`)
     this.load.image('spin_blue_ani_0001'  , `assets/seastory/img/Item/Spin/Ani/spin_ani_blue_0001.png`)

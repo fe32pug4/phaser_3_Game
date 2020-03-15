@@ -2,9 +2,9 @@ import BaseSprite        from '../../../parent/objects/baseSprite'
 export default class Spin extends BaseSprite {
     img_name: String
     logoFlag: boolean
-    scene: Phaser.Scene
-    sinX: number
-    sinY: number
+    scene   : Phaser.Scene
+    sinX    : number
+    sinY    : number
     constructor(scene: Phaser.Scene, x: number, y: number, img_name: string) {
       super(scene, x, y, img_name)
       this.img_name = img_name
@@ -190,7 +190,7 @@ export default class Spin extends BaseSprite {
             { key: 'splat_0007', frame: NaN },
             { key: 'splat_0008', frame: NaN },
             { key: 'splat_0009', frame: NaN },
-            { key: 'splat_00010', frame: NaN }
+            { key: 'splat_0010', frame: NaN }
           ],
           frameRate: 7,
           repeat: -1

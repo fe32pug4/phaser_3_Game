@@ -12,9 +12,9 @@ export default class Reel extends BaseSprite {
     this.animFrames    = []
     this.animFramesAni = []
     //Origin Animation   
-    this.createAnim(img_name, 5, 5)    
+    this.createAnim(img_name, 5, 5, -1)    
     //Ani Animation
-    this.createAnim(img_name+"_ani", 12, 5) 
+    this.createAnim(img_name+"_ani", 12, 5, -1) 
     this.play(animKey)
     this.setVisible(false)
   } 
