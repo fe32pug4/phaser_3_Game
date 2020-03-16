@@ -4,6 +4,8 @@ import GearScene         from '../../../../parent/scenes/gearScene'
 
 export default class BackgroundScene extends Phaser.Scene {
   JellyFish               : SeaSprite;
+  turtle                  : SeaSprite;
+  shark                   : SeaSprite;
   background_image_up     : SeaSprite;
   background_image_down   : SeaSprite;
   backFish                : BackFish[]; 
@@ -32,10 +34,10 @@ export default class BackgroundScene extends Phaser.Scene {
     this.JellyFish                = new SeaSprite(this, 200, 180, 'hae').setScale(2);
 
     //Tutle 
-    this.JellyFish                = new SeaSprite(this, 200, 180, 'turtle').setScale(2);
+    this.turtle                   = new SeaSprite(this, 200, 180, 'turtle').setScale(2);
 
     //shark 
-    this.JellyFish                = new SeaSprite(this, 200, 100, 'shark').setScale(3);
+    this.shark                    = new SeaSprite(this, 200, 100, 'shark').setScale(3);
     
     //BackFish 
     this.backFish                 = [];
@@ -55,11 +57,11 @@ export default class BackgroundScene extends Phaser.Scene {
   } 
 
   generateBackFish() {
-    this.backFish             = [];
-    var backFishSpeedArray    = [0.5, 0.7, 1];
-    var backFishScale         = [0.5, 1, 1.5, 2];
-    let nBackFishNum          = this.randomInt(3,17);
-    this.backFishFlag         = [];
+    this.backFish                 = [];
+    var backFishSpeedArray        = [0.5, 0.7, 1];
+    var backFishScale             = [0.5, 0.7, 1, 1.2];
+    let nBackFishNum              = this.randomInt(3,17);
+    this.backFishFlag             = [];
     for(var i=1; i<nBackFishNum; i++) {
       let nFishNo                 = this.randomInt(1, 7);
       let texture                 = "bfish" + nFishNo;
