@@ -1,4 +1,4 @@
-import BasePreloadScene  from '../../../parent/scenes/basePreloadingScene'
+import BasePreloadScene  from '../../../../parent/scenes/basePreloadingScene'
 export default class PreloadScene extends BasePreloadScene {
   sceneGroup : string[]
   constructor() {
@@ -233,7 +233,7 @@ export default class PreloadScene extends BasePreloadScene {
   }
 
   create() {
-    this.sceneGroup = ['SeaGearScene', 'WintableScene', 'StaticScene']
+    this.sceneGroup = ['BackgroundScene', 'SeaGearScene', 'WintableScene', 'StaticScene']
     this.startScenes(this.sceneGroup)
   }
 }

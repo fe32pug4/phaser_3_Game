@@ -1,4 +1,4 @@
-import SeaSprite from '../objects/SeaSprite'
+import SeaSprite from '../../objects/SeaSprite'
 
 export default class WintableScene extends Phaser.Scene {
   wintable1: SeaSprite

@@ -1,5 +1,5 @@
-import SeaSprite from '../objects/SeaSprite'
-import Effect     from '../objects/effect'
+import SeaSprite from '../../objects/SeaSprite'
+import Effect     from '../../objects/effect'
 
 export default class StaticScene extends Phaser.Scene {
   fireworks  : Effect

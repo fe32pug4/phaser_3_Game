@@ -1,4 +1,5 @@
-export default class BackFish extends Phaser.Physics.Arcade.Sprite {
+import BaseSprite        from '../../../parent/objects/baseSprite'
+export default class BackFish extends BaseSprite {
   logoFlag   : boolean
   scene      : Phaser.Scene
   animFrame  : AnimFrame
@@ -28,19 +29,18 @@ export default class BackFish extends Phaser.Physics.Arcade.Sprite {
     this.play(animKey)
   } 
 
-  public update() { 
-    if(this.x == -50) {      
+  public update(nSpeed, nbackFishFlag) { 
+    if(nbackFishFlag > 5) {      
       this.flag = false
-    } else if(this.x == 490) {
+    } else {
       this.flag = true
     }
-
-    if(this.flag) {
+    if(this.flag == true) {
       this.setFlipX(false)
-      this.x -= 1
+      this.x -= nSpeed
     } else {
       this.setFlipX(true)
-      this.x += 1
+      this.x += nSpeed
     }
   }
 }

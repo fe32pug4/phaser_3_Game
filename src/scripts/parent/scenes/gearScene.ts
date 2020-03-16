@@ -1,5 +1,5 @@
 import { Sound }         from 'phaser'
-import SeaGearScene      from '../../games/seastory/scenes/SeaGearScene'
+import SeaGearScene      from '../../games/seastory/scenes/SeaStory/SeaGearScene'
 import BaseSprite        from '../objects/baseSprite'
 export default class GearScene {
     SeaGearScene: SeaGearScene
