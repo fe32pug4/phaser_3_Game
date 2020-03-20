@@ -26,7 +26,7 @@ export default class Reel extends BaseSprite {
 
     if(index == 1) {
       if(flag) {
-        this.y = this.y + 3
+        this.y = this.y + 4
       } else {
         this.y = this.y + 10
       }      
@@ -38,13 +38,13 @@ export default class Reel extends BaseSprite {
       }  
     } else if(index == 3) {
       if(flag) {
-        this.y = this.y + 4
+        this.y = this.y + 3
       } else {
         this.y = this.y + 6
       } 
     } else if(index == 4) {
       if(flag) {
-        this.y = this.y + 3
+        this.y = this.y + 4
       } else {
         this.y = this.y + 10
       } 

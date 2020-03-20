@@ -1,13 +1,12 @@
 import SeaSprite         from '../../objects/SeaSprite'
 import Reel              from '../../objects/reel'
-import FpsText           from '../../objects/fpsText'
 import PinsGroup         from '../../objects/pin/pinGroup'
 import Spin              from '../../objects/spin'
 import BackFish          from '../../objects/backFish'
 import GearScene         from '../../../../parent/scenes/gearScene'
+import StaticScene       from './StaticScene'
 
 export default class SeaGearScene extends Phaser.Scene {
-  fpsText                 : Phaser.GameObjects.Text;
   droper                  : SeaSprite;
   pin                     : SeaSprite;
   reel1                   : Reel[];
@@ -37,9 +36,26 @@ export default class SeaGearScene extends Phaser.Scene {
   backFishFlag            : number[];
   gearScene               : GearScene;
   currentScene            : Phaser.Scene
+  StaticScene             : StaticScene
+  reelflag                : boolean
+  nplusGiftScore          : number
+  nGiftScore              : number
+  nBetScore               : number
+  nGameScore              : number
+  nCreditScore            : number
+  nGiftScoreText          : Phaser.GameObjects.Text
+  nBetScoreText           : Phaser.GameObjects.Text
+  nGameScoreText          : Phaser.GameObjects.Text
+  nCreditScoreText        : Phaser.GameObjects.Text
   constructor() {
     super({ key: 'SeaGearScene' })
     this.currentScene = this;
+    this.nGiftScore   = 10000;
+    this.nGameScore   = 100;
+    this.nBetScore    = 10000;
+    this.nCreditScore = 10000;
+    this.StaticScene  = new StaticScene();
+    this.pins         = []; 
   }
 
   create() { 
@@ -58,18 +74,19 @@ export default class SeaGearScene extends Phaser.Scene {
     this.reel2                    = [];
     this.reel3                    = [];
     this.reel4                    = [];
+    this.nplusGiftScore           = 0;
+    this.reelflag                 = true;
     for(var i=0; i<15; i++) {      
       this.reel1[i]               = this.generateReel(this.reelX[0], this.reelY[i]);
       this.reel2[i]               = this.generateReel(this.reelX[1], this.reelY[i]);
       this.reel3[i]               = this.generateReel(this.reelX[2], this.reelY[i]);
       this.reel4[i]               = this.generateReel(this.reelX[3], this.reelY[i]);
     }
-     
-    this.pins             = [];    
+       
     for(var i=0; i< 33; i++) {
       for(var j=0; j<4; j++) {
-        var pin_nim = i+1;
-        var img_name = "Pin_"+pin_nim+"_000"+j;
+        var pin_nim     = i+1;
+        var img_name    = "Pin_"+pin_nim+"_000"+j;
         this.pins.push(img_name);
       }
     }
@@ -81,31 +98,44 @@ export default class SeaGearScene extends Phaser.Scene {
       this.spins[i]              = this.generateSpin(this.spinX[i], this.spinY);
       this.touchSpin(this.coin, this.spins[i]);      
     } 
+
+    this.add.sprite(100, 770, 'ball_01')
+      .setInteractive()
+      .on('pointerdown', () => this.updateReel() );
   }
   
   randomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
   } 
   
+  updateReel() {
+    for(var i=0; i<15; i++) {      
+      this.reel1[i].y += 10;
+      this.reel2[i].y += 10;      
+      this.reel3[i].y += 10;
+      this.reel4[i].y += 10;   
+    }
+  }
 
   touchSpin(coin: SeaSprite, spin: Spin) {
-    this.physics.add.overlap(coin, spin, (coin: SeaSprite, spin: Spin) => {
+    this.physics.add.overlap(coin, spin, () => {
       if (spin.body.touching.up) {
         if(coin.x < 420 && coin.x > -50) {    
           var anim_Name = "ani_spin"+spin.img_name;
           if(spin.img_name == 'bomb'){
             this.playSound('bomb');
-            spin.anims.play(anim_Name);
+            spin.anims.play(anim_Name);                       
           } else if(spin.img_name == "spin_red" || spin.img_name == "spin_blue" || spin.img_name == "spin_gray" || spin.img_name == "spin_green" || spin.img_name == "spin_yellow" ){
             this.playSound('spin');            
             new SeaSprite(this, spin.x, spin.y-10, 's_all').setScale(0.8);
-            spin.anims.play(anim_Name);
+            spin.anims.play(anim_Name);            
           } else if(spin.img_name == "crab") {
             new SeaSprite(this, spin.x, spin.y-10, 'splat').setScale(0.8);
             this.playSound('SOOJO');
             spin.anims.play(anim_Name);
           }       
-        }        
+        }   
+        this.nplusGiftScore = 100;                     
         this.coin.destroy();
         this.dropCoin();
       }
@@ -148,16 +178,20 @@ export default class SeaGearScene extends Phaser.Scene {
     this.droperPositionX          = this.droper.getPositionX()
     this.droperPositionY          = this.droper.getPositionY()
     this.coin                     = new SeaSprite(this, this.droperPositionX, this.droperPositionY, 'ball_01') 
-    this.coin.setVelocity(25, 0).setBounce(1, 1).setCollideWorldBounds(true).setVelocityY(50);
-    //this.physics.add.collider(this.coin, this.pinsGroup);    
+    this.coin.setVelocity(70, 50).setBounce(1, -1).setCollideWorldBounds(true).setVelocityY(200);
+    this.physics.add.collider(this.coin, this.pinsGroup);
+    this.coin.body.setOffset(-10, -15);  
+    this.coin.body.setSize(20, 20);  
   }
   
   update() {    
+    this.nGiftScore = 1000;
+    this.StaticScene.updateGiftSocre(this.nGiftScore);
     this.droper.update() 
     for(var i=0; i<15; i++) {   
-      if(this.reel1[1].y < 465) {
-        let flag = true
-        if(this.reel1[1].y > 320) {
+      if(this.reel1[1].y <= 462 || this.reel1[1].y >= 470) {
+        let flag = true;
+        if(this.reel1[1].y > 320 && this.reel1[1].y < 470) {
           flag = true
         } else {
           flag = false
@@ -171,10 +205,12 @@ export default class SeaGearScene extends Phaser.Scene {
             this.reel1[i]        = this.generateReel(this.reelX[0], this.reel1[i+1].y - 60)
           }          
         }
-      } 
-      if(this.reel2[1].y < 465) {
+      } else {
+        this.reelflag = false;
+      }
+      if(this.reel2[1].y <= 462 || this.reel2[1].y >= 470) {
         let flag = true
-        if(this.reel1[1].y > 320) {
+        if(this.reel1[1].y > 320 && this.reel1[1].y < 470) {
           flag = true
         } else {
           flag = false
@@ -189,9 +225,9 @@ export default class SeaGearScene extends Phaser.Scene {
           }          
         }
       } 
-      if(this.reel3[1].y < 465) {
+      if(this.reel3[1].y <= 462 || this.reel3[1].y >= 470) {
         let flag = true
-        if(this.reel1[1].y > 320) {
+        if(this.reel1[1].y > 320 && this.reel1[1].y < 470) {
           flag = true
         } else {
           flag = false
@@ -206,9 +242,9 @@ export default class SeaGearScene extends Phaser.Scene {
           }          
         }
       } 
-      if(this.reel4[1].y < 465) {
+      if(this.reel4[1].y <= 462 || this.reel4[1].y >= 470) {
         let flag = true
-        if(this.reel1[1].y > 320) {
+        if(this.reel1[1].y > 320 && this.reel1[1].y < 470) {
           flag = true
         } else {
           flag = false
@@ -223,10 +259,6 @@ export default class SeaGearScene extends Phaser.Scene {
           }          
         }
       } 
-
-      if(this.reel1[14].y > 465) {
-        this.reel1[14]
-      }
     } 
     for(var j=0; j<15; j++) {   
       this.spins[j].update()
@@ -241,8 +273,8 @@ export default class SeaGearScene extends Phaser.Scene {
       }
     } 
     
-    this.coin.update()
-    if(this.coin.y>450) {
+    //this.coin.update()
+    if(this.coin.y>280) {
       this.coin.destroy();
       this.dropCoin()
     }

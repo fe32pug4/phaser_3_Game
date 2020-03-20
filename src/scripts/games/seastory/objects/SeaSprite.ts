@@ -70,7 +70,7 @@ export default class SeaSprite extends BaseSprite {
     } else if(this.img_name == 'wintable1' || this.img_name == 'wintable2'){
       this.x = this.x - 1
     } else {
-      this.setVelocity(20, 70)
+      this.setVelocity(20, 100)
     }
   }
 }
