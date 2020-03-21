@@ -186,6 +186,20 @@ export default class PreloadScene extends BasePreloadScene {
     //Spin Over images Loading
     this.loadingImage('s_all'            , 15 , 'seastory/img/Item/Spin/Over')
 
+    //WaterUp images Loading
+    this.loadingImage('waterdrop2'       , 30 , 'seastory/img/WaterUp')
+    
+    //Submarine image loading
+    this.load.image('submarine'           , `assets/seastory/img/Submarine/marine1.png`)
+
+    //RocketUp image Loading
+    this.load.image('rocketup', `assets/seastory/img/Submarine/rocketup.png`)
+
+    //RocketDown image Loading
+    this.load.image('rocket1', `assets/seastory/img/Submarine/rocket1.png`)
+    this.load.image('rocket2', `assets/seastory/img/Submarine/rocket2.png`)
+    this.load.image('rocket3', `assets/seastory/img/Submarine/rocket3.png`)
+
     this.load.image('spin_blue_ani_0000'  , `assets/seastory/img/Item/Spin/Ani/spin_ani_blue_0000.png`)
     this.load.image('spin_blue_ani_0001'  , `assets/seastory/img/Item/Spin/Ani/spin_ani_blue_0001.png`)
     this.load.image('spin_blue_ani_0002'  , `assets/seastory/img/Item/Spin/Ani/spin_ani_blue_0002.png`)

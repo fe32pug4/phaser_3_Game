@@ -1,6 +1,7 @@
 import SeaSprite         from '../../objects/SeaSprite'
 import BackFish          from '../../objects/backFish'
 import GearScene         from '../../../../parent/scenes/gearScene'
+import StaticScene from './StaticScene';
 
 export default class BackgroundScene extends Phaser.Scene {
   JellyFish               : SeaSprite;
@@ -14,9 +15,24 @@ export default class BackgroundScene extends Phaser.Scene {
   backFishFlag            : number[];
   gearScene               : GearScene;
   currentScene            : Phaser.Scene
+  WaterUp                 : SeaSprite
+  submarine               : SeaSprite
+  submarineFlag           : boolean
+  rocket                  : SeaSprite[]
+  rocketIndex             : number
+  rocketdown1             : SeaSprite
+  rocketdown2             : SeaSprite
+  rocketdown3             : SeaSprite
+  rocketdownFlag          : boolean
+  staticScene             : StaticScene
+  
   constructor() {
     super({ key: 'BackgroundScene' })
-    this.currentScene = this;
+    this.currentScene  = this;
+    this.submarineFlag = true;
+    this.rocket        = []
+    this.rocketIndex   = 0
+    this.rocketdownFlag = true
   }
 
   create() {  
@@ -24,37 +40,93 @@ export default class BackgroundScene extends Phaser.Scene {
     var nGearNum = 0;   
 
     //Play background music 
-    this.playSound('bg_sound');
-    
-    //Add background image
-    this.background_image_up      = new SeaSprite(this, 270, 180, 'background_image');
-    this.background_image_down    = new SeaSprite(this, 270, 540, 'background_image');
-
-    //JellyFish 
-    this.JellyFish                = new SeaSprite(this, 200, 180, 'hae').setScale(2);
-
-    //Tutle 
-    this.turtle                   = new SeaSprite(this, 200, 180, 'turtle').setScale(2);
-
-    //shark 
-    this.shark                    = new SeaSprite(this, 200, 100, 'shark').setScale(3);
+    this.playSound('bg_sound');   
     
     //BackFish 
     this.backFish                 = [];
     this.backFishSpeed            = [];
     this.backFishFlag             = [];
     this.generateBackFish();
-    var timer = this.time.addEvent({
+
+    //Waterup generating
+    this.time.addEvent({
+      delay: 5000,                // ms
+      callback: this.generateWaterUp,
+      callbackScope: this.currentScene,
+      loop: true
+    });
+    //Backfish generate
+    this.time.addEvent({
         delay: 26000,                // ms
         callback: this.generateBackFish,
         callbackScope: this.currentScene,
         loop: true
-    });
+    });       
+
+    //Add background image
+    this.background_image_up      = new SeaSprite(this, 270, 180, 'background_image');
+    this.background_image_down    = new SeaSprite(this, 270, 540, 'background_image');
+
+    //JellyFish 
+    //this.JellyFish                = new SeaSprite(this, 200, 180, 'hae').setScale(2);
+
+    //Tutle 
+    //this.turtle                   = new SeaSprite(this, 200, 180, 'turtle').setScale(2);
+
+    //shark 
+    //this.shark                    = new SeaSprite(this, 200, 100, 'shark').setScale(3);    
+
+    //Submarine   
+    this.generateSubmarine(); 
   }
   
   randomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
   } 
+
+  generateSubmarine() { 
+    this.rocketdownFlag = true;   
+    this.submarine                = new SeaSprite(this, -200, 180, 'submarine').setScale(1.5);
+    setTimeout(() => {
+      this.submarineFlag = false;
+      setTimeout(() => {
+        this.time.addEvent({
+          delay: 400,                // ms
+          callback: this.shutRocket,
+          callbackScope: this.currentScene,
+          loop: true
+        });
+        //this.shutRocket();
+      }, 500); 
+    }, 2400);
+    setTimeout(() => {
+      this.submarineFlag = true; 
+    }, 6000);   
+  }
+
+  shutRocket() {    
+    if(this.rocketIndex < 6) {
+      this.rocket[this.rocketIndex] = new SeaSprite(this, 250, 150, 'rocketup');
+    } else {
+      setTimeout(() => {
+        this.hitRocketReel();
+      }, 5000); 
+    }    
+    this.rocketIndex++;
+  }
+
+  hitRocketReel() {
+    if(this.rocketdownFlag == true) {
+      this.staticScene.rocketdown1 = new SeaSprite(this, 250, -150, 'rocket1');
+      //this.staticScene.rocketdown1 = new SeaSprite(this, 250, -150, 'rocket1');
+      this.rocketdownFlag = false;
+    }    
+  }
+
+  generateWaterUp() {
+    let x = this.randomInt(50, 360);
+    this.WaterUp                  = new SeaSprite(this, x, 170, 'waterdrop2');
+  }
 
   generateBackFish() {
     this.backFish                 = [];
@@ -103,8 +175,22 @@ export default class BackgroundScene extends Phaser.Scene {
   }
 
   update() {
-    this.background_image_up.update()
-    this.background_image_down.update()
+    if(this.submarine != null) {
+      this.submarine.update(this.submarineFlag);
+    }
+    if(this.rocketdown1 != null) {
+      this.rocketdown1.update(true);
+    }
+
+    if(this.rocket.length != 0) {
+      for(let i=0; i<6; i++) {
+        if(this.rocket[i] != null) {
+          this.rocket[i].update(true);
+        }        
+      }
+    }    
+    this.background_image_up.update(true)
+    this.background_image_down.update(true)
     if(this.backFish.length != 0) {      
       for(var i=0; i<this.backFish.length; i++) {  
         this.backFish[i].update(this.backFishSpeed[i], this.backFishFlag[i])

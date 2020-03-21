@@ -187,7 +187,7 @@ export default class SeaGearScene extends Phaser.Scene {
   update() {    
     this.nGiftScore = 1000;
     this.StaticScene.updateGiftSocre(this.nGiftScore);
-    this.droper.update() 
+    this.droper.update(true) 
     for(var i=0; i<15; i++) {   
       if(this.reel1[1].y <= 462 || this.reel1[1].y >= 470) {
         let flag = true;

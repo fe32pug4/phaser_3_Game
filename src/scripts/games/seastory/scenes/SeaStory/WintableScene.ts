@@ -30,9 +30,9 @@ export default class WintableScene extends Phaser.Scene {
     if(this.wintable3.x == 90) {
       this.wintable4 = new SeaSprite(this, 666, 330,  'wintable2')
     }
-    this.wintable1.update()
-    this.wintable2.update()
-    this.wintable3.update()
-    this.wintable4.update()
+    this.wintable1.update(true)
+    this.wintable2.update(true)
+    this.wintable3.update(true)
+    this.wintable4.update(true)
   }
 }

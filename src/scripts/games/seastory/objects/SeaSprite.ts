@@ -40,9 +40,16 @@ export default class SeaSprite extends BaseSprite {
       let animKey = "splatAnim"
       this.play(animKey)
     }
+
+    //WaterUp
+    if(img_name == 'waterdrop2') {
+      this.createAnim(img_name, 30, 20, 0);
+      let animKey = "waterdrop2Anim";
+      this.play(animKey);
+    }
   }  
   
-  public update() {    
+  public update(flag) {    
     if(this.img_name == 'droper') {
       if(this.x > 370) {
         this.logoFlag = false 
@@ -69,6 +76,18 @@ export default class SeaSprite extends BaseSprite {
       } 
     } else if(this.img_name == 'wintable1' || this.img_name == 'wintable2'){
       this.x = this.x - 1
+    } else if(this.img_name == 'submarine') {
+      if(flag) {
+        this.x += 3;
+      } else {
+
+      }      
+      if(this.x > 700) this.destroy();
+    } else if(this.img_name == 'rocketup') {
+      this.y -= 6;
+    } else if(this.img_name == 'rocket1') {
+      console.log("Dddddd");
+      this.y += 6;
     } else {
       this.setVelocity(20, 100)
     }

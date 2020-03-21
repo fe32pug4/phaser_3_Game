@@ -1,6 +1,5 @@
 import SeaSprite         from '../../objects/SeaSprite'
 import Effect            from '../../objects/effect'
-import ScoreText         from '../../objects/scoreText'
 import FpsText           from '../../objects/fpsText'
 import SeaGearScene from './SeaGearScene'
 export default class StaticScene extends Phaser.Scene {
@@ -26,6 +25,7 @@ export default class StaticScene extends Phaser.Scene {
   nGiftScoreFlag     : boolean
   nGameScoreFlag     : boolean
   nCreditScoreFlag   : boolean
+  rocketdown1        : SeaSprite
   constructor() {
     super({ key: 'StaticScene' });    
     this.nGameScore       = 100;
@@ -73,8 +73,6 @@ export default class StaticScene extends Phaser.Scene {
     
     //eventstar1
     this.eventstar1   = new Effect(this, 215, 280, 'eventstar1')
-
-    this.fpsText = new FpsText(this);
 
     this.nGiftScoreText = this.add
     .text(this.cameras.main.width - 15, 670, `${this.nGiftScore}`, {
