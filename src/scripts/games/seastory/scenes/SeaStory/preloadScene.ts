@@ -12,13 +12,32 @@ export default class PreloadScene extends BasePreloadScene {
     this.load.audio('bg_sound'            , `assets/seastory/sound/BGM_0000.ogg`);
     this.load.audio('spin'                , `assets/seastory/sound/SPIN.ogg`);
     this.load.audio('SOOJO'               , `assets/seastory/sound/SOOJO.ogg`);
+    this.load.audio('cele_0003'           , `assets/seastory/sound/cele_0003.ogg`);
+    this.load.audio('cele_0002'           , `assets/seastory/sound/cele_0002.ogg`);
+    this.load.audio('cele_0000'           , `assets/seastory/sound/cele_0000.ogg`);
+    this.load.audio('BLANK'               , `assets/seastory/sound/BLANK.ogg`);
+    this.load.audio('JELLYFISH'           , `assets/seastory/sound/JELLYFISH.ogg`);
+    this.load.audio('TURTLE'              , `assets/seastory/sound/TURTLE.ogg`);
+    this.load.audio('SHARK'               , `assets/seastory/sound/SHARK.ogg`);
+    this.load.audio('WHALE'               , `assets/seastory/sound/WHALE.ogg`);
+    this.load.audio('laser'               , `assets/seastory/sound/laser.ogg`);
     ///--------------------------Image Loading----------------------------
     this.load.image('background_image'    , `assets/seastory/img/back_0.png`);
-    this.load.image('soojo'               , `assets/seastory/img/Soojo/soojo_x5.png`);
-
+    this.load.image('soo'                 , `assets/seastory/img/Soojo/soo.png`);
+    this.loadingImage('soojo'             , 10, 'seastory/img/Soojo');
+    this.load.image('soojo_x1'            , `assets/seastory/img/Soojo/soojo_x1.png`);
+    this.load.image('soojo_x2'            , `assets/seastory/img/Soojo/soojo_x2.png`);
+    this.load.image('soojo_x3'            , `assets/seastory/img/Soojo/soojo_x3.png`);
+    this.load.image('soojo_x4'            , `assets/seastory/img/Soojo/soojo_x4.png`);
+    this.load.image('soojo_x5'            , `assets/seastory/img/Soojo/soojo_x5.png`);
+    this.load.image('GearBottom'          , `assets/seastory/img/GearBottom.png`);
+    this.load.image('btnSelectGear'       , `assets/seastory/img/SEA/btnSelectGear.png`);
+    this.load.image('btnStart'            , `assets/seastory/img/SEA/btnStart.png`);
+    this.load.image('btnAppend'           , `assets/seastory/img/SEA/btnAppend.png`);
+    this.load.image('rect2'               , `assets/seastory/img/rect2.png`);
     //Coin Droper image loading
-    this.load.image('droper'              , `assets/seastory/img/Droper/Drop_01.png`);
-
+    this.load.image('droper'              , `assets/seastory/img/Droper/Drop_01.png`);   
+    
     //Ball image loading
     this.load.image('ball_01'             , `assets/seastory/img/WaterDrop/ball_01.png`);
     this.load.image('ball_02'             , `assets/seastory/img/WaterDrop/ball_02.png`);
@@ -43,9 +62,14 @@ export default class PreloadScene extends BasePreloadScene {
     //DangerNew
     this.load.image('dangernew'           , `assets/seastory/img/dangernew.png`);
     
+    //Spark Images Loading
+    this.loadingImage('spark'             , 9 , 'seastory/img/Spark');
+
     //----------------------Loading Fireworks images-------------------------------
     this.loadingImage('fireworks'         , 58, 'seastory/img/Effect/Fireworks');
 
+    //Boom image Loadin
+    this.loadingImage('boom'              , 28, 'seastory/img/Ship');
     //----------------------Event images Loading
     //Loading dol images
     this.loadingImage('dol'               , 53, 'seastory/img/Event');
@@ -55,7 +79,8 @@ export default class PreloadScene extends BasePreloadScene {
     this.loadingImage('event_seven'       , 42, 'seastory/img/Event');
     //Loading eventstar1 images
     this.loadingImage('eventstar1'        , 6 , 'seastory/img/Event');
-
+    //Loading laser images
+    this.loadingImage('laser'             , 15, 'seastory/img/Laser');
     //-----------------------Loading reel images------------------------------------
     //Reel bar image loading  
     this.loadingImage('bar'               ,  5, 'seastory/img/Reel/bar');  
@@ -190,7 +215,7 @@ export default class PreloadScene extends BasePreloadScene {
     this.loadingImage('waterdrop2'       , 30 , 'seastory/img/WaterUp')
     
     //Submarine image loading
-    this.load.image('submarine'           , `assets/seastory/img/Submarine/marine1.png`)
+    this.load.image('submarine'          , `assets/seastory/img/Submarine/marine1.png`)
 
     //RocketUp image Loading
     this.load.image('rocketup', `assets/seastory/img/Submarine/rocketup.png`)
@@ -247,7 +272,7 @@ export default class PreloadScene extends BasePreloadScene {
   }
 
   create() {
-    this.sceneGroup = ['BackgroundScene', 'SeaGearScene', 'WintableScene', 'StaticScene']
+    this.sceneGroup = ['SeaGearScene']
     this.startScenes(this.sceneGroup)
   }
 }

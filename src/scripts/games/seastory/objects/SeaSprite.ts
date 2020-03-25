@@ -7,25 +7,7 @@ export default class SeaSprite extends BaseSprite {
   constructor(scene: Phaser.Scene, x: number, y: number, img_name: string) {
     super(scene, x, y, img_name)
     this.img_name = img_name
-    this.logoFlag = true
-
-    if(img_name == 'hae') {
-      this.createAnim(img_name, 30, 10, -1)
-      let animKey = "haeAnim"
-      this.play(animKey)
-    }
-
-    if(img_name == 'turtle') {
-      this.createAnim(img_name, 21, 10, -1)
-      let animKey = "turtleAnim"
-      this.play(animKey)
-    }
-
-    if(img_name == 'shark') {
-      this.createAnim(img_name, 37, 10, -1)
-      let animKey = "sharkAnim"
-      this.play(animKey)
-    }
+    this.logoFlag = true    
 
     //spin(blue, red, yellow, green) over animation
     if(img_name == 's_all') {
@@ -47,9 +29,29 @@ export default class SeaSprite extends BaseSprite {
       let animKey = "waterdrop2Anim";
       this.play(animKey);
     }
+
+    //Spark
+    if(img_name == 'spark') {
+      this.createAnim(img_name, 9, 10, 0);
+      let animKey = "sparkAnim";
+      this.play(animKey);
+    }
+
+    //laser
+    if(img_name == 'laser') {
+      this.createAnim(img_name, 15, 10, 0);
+      let animKey = "laserAnim";
+      this.play(animKey);
+    }
+
+    //laser
+    if(img_name == 'soojo_0000') {
+      this.createAnim('soojo', 10, 5, 0);
+      let animKey = "soojoAnim";
+    }
   }  
   
-  public update(flag) {    
+  public update() {    
     if(this.img_name == 'droper') {
       if(this.x > 370) {
         this.logoFlag = false 
@@ -74,22 +76,8 @@ export default class SeaSprite extends BaseSprite {
       } else {
         this.x = this.x - 0.1 
       } 
-    } else if(this.img_name == 'wintable1' || this.img_name == 'wintable2'){
-      this.x = this.x - 1
-    } else if(this.img_name == 'submarine') {
-      if(flag) {
-        this.x += 3;
-      } else {
-
-      }      
-      if(this.x > 700) this.destroy();
-    } else if(this.img_name == 'rocketup') {
-      this.y -= 6;
-    } else if(this.img_name == 'rocket1') {
-      console.log("Dddddd");
-      this.y += 6;
     } else {
-      this.setVelocity(20, 100)
+      this.setVelocity(10, 100)
     }
   }
 }

@@ -1,15 +1,18 @@
 import AnimFrame  from '../interface/baseInterface'
+import SeaGearScene from '../../games/seastory/scenes/SeaStory/SeaGearScene'
 export default class baseSprite extends Phaser.Physics.Arcade.Sprite {
   logoFlag       : boolean
   animFrame      : AnimFrame
   animFrames     : AnimFrame[]
   strImgName     : string
   scene          : Phaser.Scene
+  SeaGearScene   : Phaser.Scene
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
     this.scene = scene;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.SeaGearScene = new SeaGearScene();
   }
 
   public createAnim(img_name: string, nframeNum: number, nframeRate: number, nRepteat: number) {
@@ -34,12 +37,8 @@ export default class baseSprite extends Phaser.Physics.Arcade.Sprite {
     return animation;
   }
 
-  public getPositionX() {
-    return this.x;
-  }
-
-  public getPositionY() {
-    return this.y;
+  randomInt(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   public update(index: number, flag: boolean) {    

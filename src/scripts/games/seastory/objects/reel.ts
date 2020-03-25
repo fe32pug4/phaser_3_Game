@@ -3,20 +3,20 @@ export default class Reel extends BaseSprite {
   animFrame     : AnimFrame
   animFrames    : AnimFrame[]
   animFramesAni : AnimFrame[]
+  imgName       : string
   constructor(scene: Phaser.Scene, x: number, y: number, img_name: string) {
     super(scene, x, y, img_name)
-    
+    this.imgName       = img_name;
     //----------Create Animation-------------------
-    let animKey        = img_name+"Anim"
-    let animKeyAni     = img_name+"_aniAnim"
+    let animKey        = this.imgName+"Anim"
     this.animFrames    = []
     this.animFramesAni = []
     //Origin Animation   
-    this.createAnim(img_name, 5, 5, -1)    
-    //Ani Animation
-    this.createAnim(img_name+"_ani", 12, 5, -1) 
-    this.play(animKey)
-    this.setVisible(false)
+    this.createAnim(this.imgName, 5, 5, -1);    
+    //Ani Animation;
+    this.createAnim(this.imgName+"_ani", 12, 10, -1); 
+    this.play(animKey);
+    this.setVisible(false);
   } 
 
   public update(index: number, flag: boolean) {   

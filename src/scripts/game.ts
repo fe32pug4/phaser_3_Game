@@ -1,9 +1,6 @@
 import 'phaser'
 import SeaGearScene    from './games/seastory/scenes/SeaStory/SeaGearScene'
 import PreloadScene    from './games/seastory/scenes/SeaStory/preloadScene'
-import StaticScene     from './games/seastory/scenes/SeaStory/StaticScene'
-import WintableScene   from './games/seastory/scenes/SeaStory/WintableScene'
-import BackgroundScene from './games/seastory/scenes/SeaStory/BackgroundScene'
 const DEFAULT_WIDTH = 430
 const DEFAULT_HEIGHT = 790
 
@@ -17,7 +14,7 @@ const config: Phaser.Types.Core.GameConfig = {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   },
-  scene: [PreloadScene, BackgroundScene, SeaGearScene, WintableScene, StaticScene],
+  scene: [PreloadScene, SeaGearScene],
   physics: {
     default: 'arcade',
     arcade: {

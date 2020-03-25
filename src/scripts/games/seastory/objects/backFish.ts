@@ -30,17 +30,36 @@ export default class BackFish extends BaseSprite {
   } 
 
   public update(nSpeed, nbackFishFlag) { 
+    let fishY                   = this.randomInt(20, 600);   
+    let nBackFishScaleIndex     = this.randomInt(0, 3);
+    let fishX                   = 0;
+    let backFishScale           = [0.5, 0.7, 1, 1.2];
+    let visibleFlag             = this.randomInt(0, 1);
     if(nbackFishFlag > 5) {      
       this.flag = false
     } else {
       this.flag = true
     }
     if(this.flag == true) {
-      this.setFlipX(false)
-      this.x -= nSpeed
+      this.setFlipX(false);
+      this.x -= nSpeed;
+      if(this.x< -190) {
+        fishX  = this.randomInt(400, 500);
+        this.x = fishX;
+        this.y = fishY;
+        this.setScale(backFishScale[nBackFishScaleIndex]);
+        this.setVisible(visibleFlag);
+      }
     } else {
-      this.setFlipX(true)
-      this.x += nSpeed
+      this.setFlipX(true);
+      this.x += nSpeed;
+      if(this.x> 500) {
+        fishX  = this.randomInt(-190, -20);
+        this.x = fishX;
+        this.y = fishY;
+        this.setScale(backFishScale[nBackFishScaleIndex]);
+        this.setVisible(visibleFlag);
+      }
     }
   }
 }

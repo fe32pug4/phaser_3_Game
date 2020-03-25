@@ -392,14 +392,6 @@ export default class Spin extends BaseSprite {
       
       this.setVisible(false)
     }
-  
-    public getPositionX() {
-      return this.x;
-    }
-  
-    public getPositionY() {
-      return this.y;
-    }
     
     public update() {    
       this.x = this.x - 3  
