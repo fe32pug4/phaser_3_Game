@@ -41,9 +41,9 @@ export default class SeaGearScene extends Phaser.Scene {
   reel2                   : Reel[];
   reel3                   : Reel[];
   reel4                   : Reel[];
-  coin                    : SeaSprite;
+  coin                    : SeaSprite[];
+  coinIndex               : number;
   reelX                   : number[];
-  reelY                   : number[];
   spinX                   : number[];
   spinY                   : number;
   droperPositionX         : number;
@@ -114,6 +114,8 @@ export default class SeaGearScene extends Phaser.Scene {
   constructor() {
     super({ key: 'SeaGearScene' })
     this.currentScene         = this;
+    this.coin                 = [];
+    this.coinIndex            = 0;
     this.nWinScore            = 100;
     this.nGameScore           = 0;
     this.nBetScore            = 10000;
@@ -132,7 +134,6 @@ export default class SeaGearScene extends Phaser.Scene {
     this.spin_Name            = ['bomb', 'bonus_50', 'bonus_100', 'crab', 'prizebox', 'spin_blue', 'spin_green', 'spin_red', 'spin_gray', 'spin_yellow'];
     this.reel_Name            = ['joker', 'bar', 'seven', 'star', 'target', 'shellfish', 'heama', 'mong', 'fish3', 'fish2', 'fish1'];
     this.reelX                = [85, 170, 255, 340];
-    this.reelY                = [-455, -395, -335, -275, -215, -155, -95, -35, 25, 85, 145, 205, 265, 325, 385];
     this.reel1                = [];
     this.reel2                = [];
     this.reel3                = [];
@@ -181,21 +182,26 @@ export default class SeaGearScene extends Phaser.Scene {
         this.pins.push(img_name);
       }
     }
-    this.pinsGroup = new PinsGroup(this, this.pins);    
-    //Generate Spins
-    for(var i=0; i<15; i++) {         
+    this.pinsGroup = new PinsGroup(this, this.pins);  
+
+    //Generate Spins    
+    for(var i=0; i<15; i++) { 
       this.spins[i] = this.generateSpin(this.spinX[i], this.spinY);
       if(this.nGameStart == true) {
-        this.touchSpin(this.coin, this.spins[i]); 
+        for(let j=0; j<4; j++) {
+          this.touchSpin(this.coin[j], this.spins[i]); 
+        }        
       }           
     }
     
     //Generating Reel    
-    for(var i=0; i<15; i++) {      
-      this.reel1[i]               = this.generateReel(this.reelX[0], this.reelY[i], 1, i);
-      this.reel2[i]               = this.generateReel(this.reelX[1], this.reelY[i], 2, i);
-      this.reel3[i]               = this.generateReel(this.reelX[2], this.reelY[i], 3, i);
-      this.reel4[i]               = this.generateReel(this.reelX[3], this.reelY[i], 4, i);
+    let baseReelY = -2500;
+    for(var i=0; i<50; i++) {      
+      this.reel1[i]               = this.generateReel(this.reelX[0], baseReelY, 1, i);
+      this.reel2[i]               = this.generateReel(this.reelX[1], baseReelY, 2, i);
+      this.reel3[i]               = this.generateReel(this.reelX[2], baseReelY, 3, i);
+      this.reel4[i]               = this.generateReel(this.reelX[3], baseReelY, 4, i);
+      baseReelY = baseReelY + 60;
     }
      
     //Setting wintables
@@ -266,6 +272,13 @@ export default class SeaGearScene extends Phaser.Scene {
     );
 
     this.time.addEvent({
+      delay: 5000,                // ms
+      callback: this.dropCoin,
+      callbackScope: this.currentScene,
+      loop: true
+    });
+
+    this.time.addEvent({
       delay: 8000,                // ms
       callback: this.updateReel,
       callbackScope: this.currentScene,
@@ -328,13 +341,10 @@ export default class SeaGearScene extends Phaser.Scene {
     this.wintable4 = new Wintable(this, 666, 330,  'wintable2').setDepth(1);
   }
 
-  updateReel() {
-  
-    if(this.testFlag == 3) {
-      
-    } else {
+  updateReel() {  
+    if(this.updateReelCol == 0) {
       this.testFlag ++ ;
-    }  
+    } 
 
     if(this.nGameScore > 0) {
       this.nGameScore--;
@@ -427,14 +437,10 @@ export default class SeaGearScene extends Phaser.Scene {
                 this.generateMask('right');
               }
             }          
-          } 
-          setTimeout(() => {
-            anim.destroy();     
-          }, 1500);           
+          }           
         }   
         this.nplusGiftScore = 100;                     
-        this.coin.destroy();
-        this.dropCoin();
+        coin.destroy();
       }
     })
   }
@@ -472,17 +478,16 @@ export default class SeaGearScene extends Phaser.Scene {
 
   generateReel(x: number, y: number, col: number, row: number) {
     let reel_No = this.randomInt(0, 10);
-    var reel    = new Reel(this, x, y, this.reel_Name[reel_No]); 
-    
+    var reel    = new Reel(this, x, y, this.reel_Name[reel_No]).setScale(0.95);     
     if(this.testFlag == 3 && row == 2) {
       if(col == 0 && row == 2) {
-        reel = new Reel(this, x, y, this.reel_Name[1]); 
+        reel = new Reel(this, x, y, this.reel_Name[1]).setScale(0.9); 
       } else if(col == 1 && row == 2) {
-        reel = new Reel(this, x, y, this.reel_Name[1]); 
+        reel = new Reel(this, x, y, this.reel_Name[1]).setScale(0.9); 
       } else if(col == 2 && row == 2) {
-        reel = new Reel(this, x, y, this.reel_Name[1]);
+        reel = new Reel(this, x, y, this.reel_Name[1]).setScale(0.9);
       } else if(col == 3 && row == 2) {
-        reel = new Reel(this, x, y, this.reel_Name[reel_No]); 
+        reel = new Reel(this, x, y, this.reel_Name[reel_No]).setScale(0.9); 
       }      
     }  
     return reel.setDepth(0);
@@ -495,17 +500,24 @@ export default class SeaGearScene extends Phaser.Scene {
   }
 
   dropCoin() {
-    this.droperPositionX          = this.droper.x;
-    this.droperPositionY          = this.droper.y;
-    this.coin                     = new SeaSprite(this, this.droperPositionX, this.droperPositionY, 'ball_01').setDepth(2);
-    for(let i=0; i<15; i++) {
-      this.touchSpin(this.coin, this.spins[i]);  
-    } 
-    this.coin.setVelocity(10, 20).setBounce(1, -1).setCollideWorldBounds(true).setVelocityY(80);
-    this.coin.setDepth(0);
-    // this.physics.add.collider(this.coin, this.pinsGroup); 
-    // this.coin.body.setOffset(-10,-10);
-    // this.coin.body.setSize(20 , 20);
+    if(this.nGameStart) {
+      if(this.coinIndex == 4) {
+        this.coinIndex = 0;
+      }
+      
+      this.droperPositionX      = this.droper.x;
+      this.droperPositionY      = this.droper.y;
+      this.coin[this.coinIndex] = new SeaSprite(this, this.droperPositionX, this.droperPositionY, 'ball_01').setDepth(0).setScale(0.7);
+      for(let i=0; i<15; i++) {
+        this.touchSpin(this.coin[this.coinIndex], this.spins[i]);  
+      } 
+      this.coin[this.coinIndex].setVelocity(40, 20).setBounce(1, 1).setCollideWorldBounds(true).setVelocityY(130);
+      this.physics.add.collider(this.coin[this.coinIndex], this.pinsGroup); 
+      this.coin[this.coinIndex].body.setOffset(-10,-10); 
+      this.coin[this.coinIndex].body.setSize(19, 19);  
+         
+      this.coinIndex++;
+    }    
   }
 
   generateSubmarine() {  
@@ -872,7 +884,7 @@ export default class SeaGearScene extends Phaser.Scene {
       this.mainSpark.y += 5;
     }
     this.droper.update() 
-    for(var i=0; i<15; i++) {   
+    for(var i=0; i<50; i++) {   
       if(this.reel1[1].y <= 462 || this.reel1[1].y >= 470) {
         let flag = true;
         if(this.reel1[1].y > 320 && this.reel1[1].y < 470) {
@@ -882,7 +894,7 @@ export default class SeaGearScene extends Phaser.Scene {
         }
         this.reel1[i].update(1, flag)
         if(this.reel1[i].y > 700) {
-          if(i == 14) {
+          if(i == 49) {
             this.reel1[i] = this.generateReel(this.reelX[0], this.reel1[0].y - 60, 0, 0);
           } else {
             if(this.testFlag == 3 && i == 2) {
@@ -904,7 +916,7 @@ export default class SeaGearScene extends Phaser.Scene {
         }
         this.reel2[i].update(2, flag)
         if(this.reel2[i].y > 700) {
-          if(i == 14) {
+          if(i == 49) {
             this.reel2[i] = this.generateReel(this.reelX[1], this.reel2[0].y - 60, 0, 0);
           } else {
             if(this.testFlag == 3 && i == 2) {
@@ -924,7 +936,7 @@ export default class SeaGearScene extends Phaser.Scene {
         }
         this.reel3[i].update(3, flag);
         if(this.reel3[i].y > 700) {
-          if(i == 14) {
+          if(i == 49) {
             this.reel3[i]   = this.generateReel(this.reelX[2], this.reel3[0].y - 60, 0, 0);
           } else {
             if(this.testFlag == 3 && i == 2) {
@@ -944,7 +956,7 @@ export default class SeaGearScene extends Phaser.Scene {
         }
         this.reel4[i].update(4, flag);
         if(this.reel4[i].y > 700) {
-          if(i == 14) {
+          if(i == 49) {
             this.reel4[i]   = this.generateReel(this.reelX[3], this.reel4[0].y - 60, 0, 0);
           } else {
             if(this.testFlag == 3 && i == 2) {
@@ -1015,17 +1027,30 @@ export default class SeaGearScene extends Phaser.Scene {
       this.spins[j].update()
       if(this.spins[j].x < -90) {
         if(j>0) {
-          this.spins[j] = this.generateSpin(this.spins[j-1].x + 60, this.spinY);       
+          this.spins[j] = this.generateSpin(this.spins[j-1].x + 60, this.spinY);
+          for(let k=0; k<4; k++) {
+            if(this.coin[k]!=null){
+              this.touchSpin(this.coin[k], this.spins[j]);
+            }            
+          }       
         } else if(j==0){         
-          this.spins[j] = this.generateSpin(this.spins[14].x + 60, this.spinY); 
+          this.spins[j] = this.generateSpin(this.spins[14].x + 60, this.spinY);
+          for(let k=0; k< 4; k++) {
+            if(this.coin[k]!=null){
+              this.touchSpin(this.coin[k], this.spins[j]);
+            }
+          } 
         }    
       }
     }  
 
-    if(this.coin != null && this.coin.y>280) {
-      this.coin.destroy();
-      this.dropCoin()
+    for(let i=0; i< 4; i++) {
+      if(this.coin[i] != null && this.coin[i].y>280) {
+        this.coin[i].destroy();
+        this.dropCoin()
+      }
     }
+    
     this.wintable1.update();
     this.wintable2.update();
     this.wintable3.update();
